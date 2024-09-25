@@ -88,4 +88,5 @@ class PromotionFirebaseController extends Controller
         $stats = $this->promotionService->getPromotionStats($id);
         return response()->json($stats);
     }
+    
 }

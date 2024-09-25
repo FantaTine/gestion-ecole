@@ -44,6 +44,8 @@ Route::prefix('v1')->group(function () {
     Route::patch('/promotions/{id}/cloturer', [PromotionFirebaseController::class, 'cloturer']);
     Route::get('/promotions/{id}/referentiels', [PromotionFirebaseController::class, 'getReferentiels']);
     Route::get('/promotions/{id}/stats', [PromotionFirebaseController::class, 'getStats']);
+
+    Route::get('promotions/export', [PromotionFirebaseController::class, 'export']);
 });
 
 // Routes publiques
