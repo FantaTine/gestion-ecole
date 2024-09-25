@@ -1,0 +1,55 @@
+# version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - .:/var/www
+      - ./gestion-ecole/fanta.json://var/www/html/laravel/gestion-ecole/fanta.json
+    networks:
+      - laravel
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres  # Nom du service PostgreSQL
+      DB_PORT: 5432
+      DB_DATABASE: gestion_ecole
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+
+  webserver:
+    build:
+      context: ./nginx  # Assurez-vous que ce dossier contient le Dockerfile
+      dockerfile: Dockerfile
+    container_name: nginx
+    volumes:
+      - .:/var/www  # Volume de l'application Laravel
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf  # Configuration de Nginx
+    ports:
+      - "9000:80"  # Exposition du port 80 du conteneur sur le port 9000 de l'hôte
+    depends_on:
+      - app  # Attendre que le service 'app' soit opérationnel
+    networks:
+      - laravel
+
+  postgres:  # Service PostgreSQL
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: gestion_ecole
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volume persistant pour les données PostgreSQL
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
+
+volumes:
+  postgres_data:  # Volume persistant pour les données PostgreSQL
