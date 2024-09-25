@@ -1,5 +1,7 @@
 #!/bin/sh
 
+nginx -t
+
 # Démarrer PHP-FPM
 php-fpm -D
 

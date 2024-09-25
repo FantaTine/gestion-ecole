@@ -13,19 +13,36 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     nginx \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql zip
+    && docker-php-ext-install gd pdo pdo_mysql zip bcmath opcache
 
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Créer un utilisateur non-root
+RUN useradd -m myuser
+
 # Copier le contenu de l'application dans le conteneur
-COPY . /var/www
+COPY --chown=myuser:myuser . /var/www
 
 # Définir le répertoire de travail
 WORKDIR /var/www
 
-# Installer les dépendances PHP avec Composer
+# Configurer les variables d'environnement pour Laravel
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+
+# Installer les dépendances PHP avec Composer en tant qu'utilisateur non-root
+USER myuser
 RUN composer install --optimize-autoloader --no-dev
+USER root
+
+# Générer la clé d'application Laravel
+RUN php artisan key:generate
+
+# Optimiser Laravel pour la production
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
 
 # Donner les permissions adéquates aux répertoires de stockage et de cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
