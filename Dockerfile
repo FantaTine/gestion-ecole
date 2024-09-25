@@ -16,27 +16,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd pdo pdo_mysql zip bcmath opcache
 
 # Installer Composer
-# Créer un utilisateur non-root et définir le répertoire de travail
-RUN useradd -m myuser
-WORKDIR /var/www
-
-# Copier uniquement les fichiers nécessaires pour l'installation de Composer
-COPY composer.json composer.lock ./
-
-# Installer les dépendances en tant que myuser
-USER myuser
-RUN composer install --no-scripts --no-autoloader
-
-# Copier le reste des fichiers de l'application
-USER root
-COPY . .
-
-# Terminer l'installation de Composer en tant que myuser
-USER myuser
-RUN composer dump-autoload --optimize
-
-# Revenir à l'utilisateur root pour les opérations suivantes
-USER root
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Créer un utilisateur non-root
 RUN useradd -m myuser
