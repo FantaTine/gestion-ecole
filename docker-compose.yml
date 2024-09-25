@@ -1,4 +1,4 @@
-# version: '3.8'
+version: '3.8'
 
 services:
   app:
@@ -8,7 +8,7 @@ services:
     container_name: app
     volumes:
       - .:/var/www
-      - ./gestion-ecole/fanta.json://var/www/html/laravel/gestion-ecole/fanta.json
+      - ./gestion-ecole/fanta.json:/var/www/html/laravel/gestion-ecole/fanta.json
     networks:
       - laravel
     environment:
