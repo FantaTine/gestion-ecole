@@ -33,7 +33,7 @@ ENV APP_DEBUG=false
 
 # Installer les dépendances PHP avec Composer en tant qu'utilisateur non-root
 USER myuser
-RUN composer install --no-scripts --no-autoloader
+RUN composer install
 USER root
 
 # Générer la clé d'application Laravel
