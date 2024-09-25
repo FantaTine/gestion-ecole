@@ -1,6 +1,7 @@
 #!/bin/sh
 
-nginx -t
+# Ajuster les permissions
+chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Démarrer PHP-FPM
 php-fpm -D
