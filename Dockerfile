@@ -23,7 +23,8 @@ RUN useradd -m myuser
 
 # Copier le contenu de l'application dans le conteneur
 COPY --chown=myuser:myuser . /var/www
-RUN chown -R myuser:myuser /var/wwwRUN chown -R myuser:myuser /var/www
+RUN chown -R myuser:myuser /var/www 
+RUN chown -R myuser:myuser /var/www
 
 # Définir le répertoire de travail
 WORKDIR /var/www
