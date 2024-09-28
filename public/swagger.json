@@ -1,0 +1,555 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "School Management API",
+      "version": "1.0.0",
+      "description": "API documentation for managing users, referentiels, and promotions"
+    },
+    "components": {
+      "securitySchemes": {
+        "BearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "paths": {
+      "/api/v1/auth/login": {
+        "post": {
+          "summary": "User login",
+          "tags": ["Authentication"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login successful"
+            }
+          }
+        }
+      },
+      "/api/v1/users": {
+        "get": {
+          "summary": "Get all users",
+          "tags": ["Users"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "A list of users"
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new user",
+          "tags": ["Users"],
+          "security": [{ "BearerAuth": [] }],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "email": { "type": "string" },
+                    "phone": { "type": "string" }
+                  },
+                  "required": ["name", "email"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created"
+            }
+          }
+        }
+      },
+      "/api/v1/users/{id}": {
+        "get": {
+          "summary": "Get a user by ID",
+          "tags": ["Users"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User details"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a user",
+          "tags": ["Users"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "email": { "type": "string" },
+                    "phone": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a user",
+          "tags": ["Users"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted"
+            }
+          }
+        }
+      },
+      "/api/v1/users/email/{email}": {
+        "get": {
+          "summary": "Get a user by email",
+          "tags": ["Users"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "email",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User details by email"
+            }
+          }
+        }
+      },
+      "/api/v1/users/telephone/{phone}": {
+        "get": {
+          "summary": "Get a user by phone",
+          "tags": ["Users"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "phone",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User details by phone"
+            }
+          }
+        }
+      },
+      "/api/v1/referentiels": {
+        "post": {
+          "summary": "Create a referentiel",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "201": {
+              "description": "Referentiel created"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all referentiels",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "List of referentiels"
+            }
+          }
+        }
+      },
+      "/api/v1/referentiels/{id}": {
+        "get": {
+          "summary": "Get a referentiel by ID",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Referentiel details"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Update a referentiel",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Referentiel updated"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a referentiel",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Referentiel deleted"
+            }
+          }
+        }
+      },
+      "/api/v1/archive/referentiels": {
+        "get": {
+          "summary": "Get archived referentiels",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "List of archived referentiels"
+            }
+          }
+        }
+      },
+      "/api/v1/referentiels/{id}/competences": {
+        "post": {
+          "summary": "Add a competence to referentiel",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Competence added"
+            }
+          }
+        }
+      },
+      "/api/v1/referentiels/{referentielId}/competences/{competenceId}/modules": {
+        "post": {
+          "summary": "Add a module to competence",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "referentielId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            },
+            {
+              "name": "competenceId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Module added"
+            }
+          }
+        }
+      },
+      "/api/v1/referentiels/{referentielId}/competences/{competenceId}": {
+        "delete": {
+          "summary": "Delete a competence from referentiel",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "referentielId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            },
+            {
+              "name": "competenceId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Competence deleted"
+            }
+          }
+        }
+      },
+      "/api/v1/referentiels/{referentielId}/competences/{competenceId}/modules/{moduleId}": {
+        "delete": {
+          "summary": "Delete a module from competence",
+          "tags": ["Referentiels"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "referentielId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            },
+            {
+              "name": "competenceId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            },
+            {
+              "name": "moduleId",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Module deleted"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions": {
+        "post": {
+          "summary": "Create a promotion",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "201": {
+              "description": "Promotion created"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get all promotions",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "List of promotions"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions/{id}": {
+        "patch": {
+          "summary": "Update promotion",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Promotion updated"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions/{id}/referentiels": {
+        "patch": {
+          "summary": "Update referentiels in promotion",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Referentiels updated"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get referentiels in promotion",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of referentiels in promotion"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions/{id}/etat": {
+        "patch": {
+          "summary": "Update promotion state",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Promotion state updated"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions/{id}/cloturer": {
+        "patch": {
+          "summary": "Cloture promotion",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Promotion clotured"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions/{id}/stats": {
+        "get": {
+          "summary": "Get promotion statistics",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Promotion statistics"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions/encours": {
+        "get": {
+          "summary": "Get ongoing promotions",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "List of ongoing promotions"
+            }
+          }
+        }
+      },
+      "/api/v1/promotions/export": {
+        "get": {
+          "summary": "Export promotions",
+          "tags": ["Promotions"],
+          "security": [{ "BearerAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "Promotions exported"
+            }
+          }
+        }
+      }
+    }
+  }
+  

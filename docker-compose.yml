@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - .:/var/www
+      - ./storage/firebase/gestion-ecole-dbb48-firebase-adminsdk-8kf73-483e779f07:/var/www/html/laravel/gestion-ecole/storage/firebase/gestion-ecole-dbb48-firebase-adminsdk-8kf73-483e779f07.json
+    networks:
+      - laravel
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: gestion_ecole
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      APP_PORT: 8080  
+      FIREBASE_CREDENTIALS: ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAibGFyYXZlbC1nZXN0aW9uLXBlZGFnb2dpcXVlIiwKICAicHJpdmF0ZV9rZXlfaWQiOiAiZjY3Y2M1N2MzZjdiNDJmYjhkZGFhNmIzMTlhZTM5MTNkMTU3OTQ2OCIsCiAgInByaXZhdGVfa2V5IjogIi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLVxuTUlJRXZBSUJBREFOQmdrcWhraUc5dzBCQVFFRkFBU0NCS1l3Z2dTaUFnRUFBb0lCQVFDY0RSZ3VEdXhZbkd5RlxuSlNjMnpmbmh5b1hOdGtMWmwvWm9HYUw2QmY5bVNsVk5zOUV6VTh1YzRZTFZFTlExMVVOTGtaMXhydk5BY2FjcFxuK3g4Sm5pVGtSZUNEWWxPd1NzUm1CTWlkdW1hNWVtR1N4RmppYWRSSXV2a1J0cmVjcVF2Wkt0WE1rdnRORWxGdVxueXcza2cvMi9hZlo5ZDhyN0grVlZKTzNWTG1pRkZsaXIvcFEzWFN5cStBZTRzRTR3S1ZDR1lNUVpnV2FSdStJN1xucFhBNmpJOXZLMWhKNlR2YzllQWloYU5WTi8zRG5nNUY1ZGp4c25TbEREcU5KS2tDK3BKMGdlRXlyN1Z1VkhJZ1xuQ0hpd3FzajRhc1RNMlVPWDBSM01pNlJzcXkxZWN3SHIrYXJ4UE9ObEVBNE1SZTBiWE1wM3lPOFh2ZkZNTzNlWVxuWjBuSVRQbk5BZ01CQUFFQ2dnRUFEbEdmUmQ2bHJpM1FRVmxhNDByOElrMUFnTk00Q0JwTENGdE4ybzVCVktQK1xuZHM1SXBHS01mTjB1Y1ptRk4xbFZ2dkhpRmdQZEd5MHlqd1lWWDM4TTJJdFc0Z2RjTVlGeXl2K21YdDZ6UFZLdVxuOEZZbTU4T1pNSUZEaUc0UkpBVlk2bmpsUEV2Q1ZseVhiMGlmZ2pmZ1NUZVNZQW5sYkt5TkVRWjk4a0U3WXZhNFxud0lpendpRHhJNWtMNmRrRm1EbG1ybC9xZExtMTgyYlk2Q3BNZHI2TVRuRmVZaWZ6OHcwa0M5Z2FLQTF1ekZHTlxuSTFJL2xVbXNmT0o3alNWK2Z4NHQ4bmI5czNYUEdPL0VFUzFKWUMyZnFPSEpUcUlIcVBXVWNhWDZWdzhDRkZzWlxuV3R3ZkNQZUxqYWpWR3dNM081bzRqVlBrY2pIY1FTbWJvRzk4cGFkS3NRS0JnUURQZXkrMUdaLzR2cVdRZ0o3dlxuSUlLb3l1S0lITE9JNEI5K0RxbE5xM2lLWFl6N01wR3FJaHIzYkcveGcyUVZvd09nTHdlU2dINVhmSUdOczVNVFxuQWg3QkFybEYxL0lzZWRITGhaMkVQblBpUG8xcmdyd3Zrd296SGttWUszY1JKZWtZZENOVkRLV2x4OVZDSUJjWlxuMGFTL3FEcXNGUVRxMWFhb0JwcldrWDVPNVFLQmdRREFpdzl3YXZSQndja3lCa2l4MUdudWp3Q2RaNnZZSjZCQVxuaXhteDZoMlRKa2VCVVdUNWZ3b0g1U1A2SkJlWnpybDh3cXI3TjhrcUF5VDU0RnRZTlBxdDVFSmxKSHU5UGpUVVxud0tHaWlwQ2x5SzU5MFpvejdRNEpGbjhDaHBSTEUyNDdZRkZlcmhpOWpXQjdWNjZYWmdKZFNpNzUrZ0VEeDcrZlxuODcvWWRvUm95UUtCZ0ZBeHlmL1N0cjFiV3YwZWFjLzluZU1HQUVjaDZOYm40ZVJFWUhZUDU5aDdUa210Z3hYaVxuZHMvWmp1OG5uT0NzRUhPeW1kZXJhS29DQ3NVdGVwUm5SbUhOM3JTN1FmU2s1VTBvQ1BrYmRva2xLbDQ2dXVnY1xuaWwyMXdEWmIzbnEzVDRCUEszVHRIWDJWWHIxZlQrNS8xSkRyd2puUEtnWm1yRExYMHJOS3F5cHRBb0dBYmNGWFxuUmEvU0dJSE1uSlYwYnRvMG9HWW41WklwSlFoQmswazNsbkZyOW11RnF6T29xWWcvUVl6ZTIwSWpxZXRyVkxEclxuSWxVRWVNeGVFWXBReDVFN3JGQkhnTHd4UlFqbXVMZ3Q2eWV0bUxNeXRFbjg2c2lnalpHalNOOUtQUm1RWm94YlxuRmV1TDh0RmFSRFVSTXdCVkxMU1MzckFpVC9OWFNtaDUzWHlCc2ZFQ2dZQkhZMzYrczRDdExIMXNHamg4S2dLQVxuL3dMcmxZMzNERWY4b25wdmw0Mi9Dd2RGRFdjNFJqakpuaGNUdThtWncyc3dJcU5ZOGF0OW9JNHgwY2NLM0pCT1xuUzhRTk40ZUg2bjRVN0tmcU9zcGp3ekkxeVR0NGlYbG5ZUmJraFFXeXlRYXNJM2VXZ1I2Y0lqQXU3LzBKenVRa1xuNjE4VVZiNEFYaG5NcTAxN1RRUm5wdz09XG4tLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tXG4iLAogICJjbGllbnRfZW1haWwiOiAiZmlyZWJhc2UtYWRtaW5zZGstOTk4czdAbGFyYXZlbC1nZXN0aW9uLXBlZGFnb2dpcXVlLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwKICAiY2xpZW50X2lkIjogIjEwOTIzNDIxMTY1NTE5MDMyNzU3NSIsCiAgImF1dGhfdXJpIjogImh0dHBzOi8vYWNjb3VudHMuZ29vZ2xlLmNvbS9vL29hdXRoMi9hdXRoIiwKICAidG9rZW5fdXJpIjogImh0dHBzOi8vb2F1dGgyLmdvb2dsZWFwaXMuY29tL3Rva2VuIiwKICAiYXV0aF9wcm92aWRlcl94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL29hdXRoMi92MS9jZXJ0cyIsCiAgImNsaWVudF94NTA5X2NlcnRfdXJsIjogImh0dHBzOi8vd3d3Lmdvb2dsZWFwaXMuY29tL3JvYm90L3YxL21ldGFkYXRhL3g1MDkvZmlyZWJhc2UtYWRtaW5zZGstOTk4czclNDBsYXJhdmVsLWdlc3Rpb24tcGVkYWdvZ2lxdWUuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLAogICJ1bml2ZXJzZV9kb21haW4iOiAiZ29vZ2xlYXBpcy5jb20iCn0=
+      GOOGLE_APPLICATION_CREDENTIALS: /var/www/firebase-key.json
+    expose:
+      - 8080  # Assurez-vous que votre application écoute sur ce port
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    volumes:
+      - .:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"  # Assurez-vous que PORT est défini
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: gestion_ecole
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - laravel
+
+networks:
+  laravel:
+    driver: bridge
+
+volumes:
+  postgres_data:
