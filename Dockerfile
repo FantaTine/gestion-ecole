@@ -1,61 +1,57 @@
-# Use the official PHP image with extensions
 FROM php:8.3-fpm
 
-# Install dependencies
+# Installation des dépendances système et des extensions PHP
 RUN apt-get update && apt-get install -y \
-    build-essential \
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    curl \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    curl \
-    unzip \
-    git \
     libpq-dev \
-    libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip gd mbstring exif pcntl bcmath
+    nginx \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql pdo_pgsql zip opcache
 
-# Install Composer
+# Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# Définition du répertoire de travail
 WORKDIR /var/www
 
-# Copy project files
-COPY . .
+# Copie des fichiers du projet
+COPY . /var/www
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www
+# Installation des dépendances PHP
+RUN composer install --optimize-autoloader --no-dev
 
-# Install project dependencies
-RUN composer install --no-scripts --no-autoloader
+# Configuration des permissions
+# RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+#     && chmod -R 777 /var/www/storage /var/www/bootstrap/cache
+RUN mkdir -p /var/www/storage/logs /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 777 /var/www/storage /var/www/bootstrap/cache
 
-# Create firebase-key.json from environment variable
-RUN mkdir -p /var/www/storage/firebase && \
-    if [ -n "$FIREBASE_CREDENTIALS" ]; then \
-        echo $FIREBASE_CREDENTIALS | base64 -d > /var/www/storage/firebase/firebase-key.json; \
-    else \
-        echo "{}" > /var/www/storage/firebase/firebase-key.json; \
-    fi
 
-# Copy environment file
-COPY .env.example .env
+# Configuration de Nginx
+#COPY nginx/default.conf /etc/nginx/sites-available/default
+#RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-# Set permissions for storage and cache
-RUN chown -R www-data:www-data /var/www/storage \
-    && chmod -R 775 /var/www/storage \
-    && chmod -R 775 /var/www/bootstrap/cache
+# COPY env.example .env and generate key
+# COPY .env.example .env
+# RUN php artisan key:generate
 
-# Run composer scripts and optimize
-#RUN composer dump-autoload --optimize
+# Nettoyage
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Generate application key
-#RUN php artisan key:generate
+# Exposition du port
+EXPOSE 80
 
-# Expose port
-EXPOSE $PORT
+# Copie et configuration du script de démarrage
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
-# Start the application
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+# Commande de démarrage
+CMD php artisan serve --host=0.0.0.0 --port=8845
