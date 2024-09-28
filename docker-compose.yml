@@ -8,7 +8,7 @@ services:
     container_name: app
     volumes:
       - .:/var/www
-      - ./storage/firebase/gestion-ecole-dbb48-firebase-adminsdk-8kf73-483e779f07:/var/www/html/laravel/gestion-ecole/storage/firebase/gestion-ecole-dbb48-firebase-adminsdk-8kf73-483e779f07.json
+      - ./storage/firebase/gestion-ecole-dbb48-firebase-adminsdk-8kf73-483e779f07.json:/var/www/html/laravel/gestion-ecole/storage/firebase/gestion-ecole-dbb48-firebase-adminsdk-8kf73-483e779f07.json
     networks:
       - laravel
     environment:

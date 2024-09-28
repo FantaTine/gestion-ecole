@@ -39,7 +39,7 @@ RUN echo $FIREBASE_CREDENTIALS | base64 -d > /var/www/firebase-key.json
 
 # Copier le fichier d'environnement et générer la clé
 COPY .env.example .env
-RUN php artisan key:generate
+#RUN php artisan key:generate
 
 # Configurer les permissions sur le stockage et le cache
 RUN chown -R www-data:www-data /var/www/storage \
