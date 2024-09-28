@@ -29,9 +29,10 @@ return [
              */
 
             'credentials' => [
-                'project_id' => env('FIREBASE_PROJECT_ID'),
-                'client_email' => env('FIREBASE_CLIENT_EMAIL'),
-                'private_key' => str_replace('\\n', "\n", env('FIREBASE_PRIVATE_KEY')),
+                #'project_id' => env('FIREBASE_PROJECT_ID'),
+                #'client_email' => env('FIREBASE_CLIENT_EMAIL'),
+                #'private_key' => str_replace('\\n', "\n", env('FIREBASE_PRIVATE_KEY')),
+                'file' => env('FIREBASE_CREDENTIALS', base_path('firebase-key.json')),
                 
             ],
 
