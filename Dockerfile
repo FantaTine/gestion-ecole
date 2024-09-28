@@ -54,4 +54,4 @@ COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 # Commande de démarrage
-CMD php artisan serve --host=0.0.0.0 --port=8845
+CMD ["php", "artisan", "serve" ,"--host=0.0.0.0" ,"--port=8845"]
