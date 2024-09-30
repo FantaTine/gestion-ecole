@@ -59,7 +59,7 @@ class FirebaseModel
         ZXJ2aWNlYWNjb3VudC5jb20iLAogICJ1bml2ZXJzZV9kb21haW4iOiAiZ29vZ2xlYXBpcy5jb20i
         Cn0=");
         $factory = (new Factory)
-            ->withServiceAccount(json_encode($credentials, true))
+            ->withServiceAccount(json_decode($credentials, true))
             ->withDatabaseUri("https://gestion-ecole-dbb48-default-rtdb.firebaseio.com/");
     
         if (config('services.firebase.project_id')) {
