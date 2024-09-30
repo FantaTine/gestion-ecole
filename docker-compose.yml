@@ -1,5 +1,7 @@
+version: '3'
 services:
 
+  #PHP Service
   app:
     build:
       context: .
@@ -14,15 +16,13 @@ services:
     working_dir: /var/www/html/laravel/gestion-ecole
     volumes:
       - ./:/var/www/html/laravel/gestion-ecole
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
-    command: ["/var/www/html/laravel/gestion-ecole/start.sh"]
 
+  #Nginx Service
   webserver:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    image: nginx
+    image: nginx:alpine
     container_name: webserver
     restart: unless-stopped
     tty: true

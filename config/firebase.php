@@ -28,13 +28,7 @@ return [
              * Ensure the private key has proper formatting with line breaks replaced.
              */
 
-            'credentials' => [
-                #'project_id' => env('FIREBASE_PROJECT_ID'),
-                #'client_email' => env('FIREBASE_CLIENT_EMAIL'),
-                'private_key' => str_replace('\\n', "\n", env('FIREBASE_PRIVATE_KEY')),
-                'file' => json_decode(base64_decode(env('FIREBASE_CREDENTIALS', base_path('firebase-key.json'))),true),
-                
-            ],
+            'credentials' => env('FIREBASE_CREDENTIALS') ?: env('GOOGLE_APPLICATION_CREDENTIALS'),
 
             /*
              * Firebase Database URL
